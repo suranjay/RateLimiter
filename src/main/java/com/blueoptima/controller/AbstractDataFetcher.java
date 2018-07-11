@@ -24,17 +24,16 @@ public abstract class AbstractDataFetcher<T> {
         String nextLink = null;
         if (headerMap != null) {
             List<String> links = headerMap.get("Link");
-            for (String link : links) {
-                if (link.contains("; rel=\"next\"")) {
-//                    System.out.println(link);
-                    int endIndex = link.indexOf("; rel=\"next\"");
-                    link = link.substring(0, endIndex);
-                    nextLink = link.substring(link.lastIndexOf('<') + 1, link.lastIndexOf('>'));
-//                    System.out.println(nextLink);
-                    break;
+            if (links != null) {
+                for (String link : links) {
+                    if (link.contains("; rel=\"next\"")) {
+                        int endIndex = link.indexOf("; rel=\"next\"");
+                        link = link.substring(0, endIndex);
+                        nextLink = link.substring(link.lastIndexOf('<') + 1, link.lastIndexOf('>'));
+                        break;
+                    }
                 }
             }
-
         }
         if (nextLink != null) {
             request.setUrlString(nextLink);
@@ -48,7 +47,7 @@ public abstract class AbstractDataFetcher<T> {
     public static void main(String[] args) throws ApplicationException {
         AbstractDataFetcher<Map<String, Integer>> dataFetcher = new RepoDetailFetcher();
         HttpRequest httpRequest = new HttpRequest();
-        httpRequest.setUrlString("https://api.github.com/search/commits?q=committer%3Asurna&per_page=100");
+        httpRequest.setUrlString("https://api.github.com/search/commits?q=committer%3Asuranjay&per_page=100");
         httpRequest.setMethodType(MethodType.GET);
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Accept", "application/vnd.github.cloak-preview");
@@ -59,7 +58,7 @@ public abstract class AbstractDataFetcher<T> {
             count = count+integer;
         }
 
-        System.out.println(RepoDetailFetcher.count1);
+        System.out.println(data);
     }
 
 }
