@@ -1,15 +1,11 @@
 package com.blueoptima.util;
 
-import com.blueoptima.bean.HttpResponse;
 import com.blueoptima.common.ApplicationException;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Suranjay on 11/07/18.
@@ -18,8 +14,9 @@ public class JsonReader {
 
     private static final Logger LOGGER = Logger.getLogger(JsonReader.class.getName());
 
-    public static String getValueFromJson(String json, String attribute) throws ApplicationException {
-        JSONParser jsonParser = new JSONParser();
+    private static final JSONParser jsonParser = new JSONParser();
+
+    public static <T> T getValueFromJson(String json, String attribute) throws ApplicationException {
 
         Object object;
         try {
@@ -31,11 +28,10 @@ public class JsonReader {
 
         JSONObject jsonObject = (JSONObject) object;
 
-        return (String) jsonObject.get(attribute);
+        return (T) jsonObject.get(attribute);
     }
 
     public static JSONArray getJsonArrayFromJson(String json, String attribute) throws ApplicationException {
-        JSONParser jsonParser = new JSONParser();
 
         Object object;
         try {

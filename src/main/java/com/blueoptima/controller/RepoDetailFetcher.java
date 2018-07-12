@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class RepoDetailFetcher extends AbstractDataFetcher<Map<String, Integer>> {
 
-    public static int count1 = 0;
     public RepoDetailFetcher() {
         super();
         data = new HashMap<>();
@@ -27,7 +26,6 @@ public class RepoDetailFetcher extends AbstractDataFetcher<Map<String, Integer>>
 //            System.out.println(((JSONObject)((JSONObject)item).get("repository")).get("full_name"));
             String o = (String) ((JSONObject) ((JSONObject) item).get("repository")).get("full_name");
             Integer count = data.get(o);
-            ++count1;
             if (count == null) {
                 data.put(o, 1);
             } else {
