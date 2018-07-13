@@ -2,6 +2,7 @@ package com.blueoptima.controller;
 
 import com.blueoptima.bean.*;
 import com.blueoptima.common.ApplicationException;
+import com.blueoptima.util.JsonReader;
 
 import java.util.*;
 
@@ -14,6 +15,7 @@ public abstract class AbstractDataFetcher<T> {
 
     public T getData(HttpRequest request) throws ApplicationException {
         HttpResponse response = DataFetcherWithRateLimit.getInstance().fetchDataFromUrl(request);
+        Long totalCount = JsonReader.<Long>getValueFromJson(response.getBody(), "total_count");
         parseResponse(response);
         Map<String, List<String>> headerMap = response.getHeaderMap();
         String nextLink = null;

@@ -27,12 +27,19 @@ public class RateLimitProcessor {
         for (InputDetail detail : inputDetails) {
             AbstractDataFetcher<List<UserDetail>> dataFetcher1 = new UserDetailFetcher();
             HttpRequest httpRequest = UserUrlCreator.createUserSearchRequest(detail);
-            List<UserDetail> data = dataFetcher1.getData(httpRequest);
-            System.out.println(data);
-            for (UserDetail userDetail : data) {
+            List<UserDetail> userDetails = dataFetcher1.getData(httpRequest);
+            System.out.println("Found " + userDetails.size() + " users matching for " + detail.getFirstName() + " "+ detail.getLastName()+ ", " + detail.getLocation());
+            for (UserDetail userDetail : userDetails) {
                 AbstractDataFetcher<Map<String, Integer>> repoDetailFetcher = new RepoDetailFetcher();
                 httpRequest = CommitSearchUrlCreator.getCommitSearchRequest(userDetail.getLoginId());
-                userRepoCommitMap.put(userDetail.getLoginId(), repoDetailFetcher.getData(httpRequest));
+                Map<String, Integer> repoCommitMap = repoDetailFetcher.getData(httpRequest);
+                System.out.println("Total commits count from search: " + ((RepoDetailFetcher)repoDetailFetcher).getTotalCount());
+                int count=0;
+                for (Integer integer : repoCommitMap.values()) {
+                    count = count + integer;
+                }
+                System.out.println("Totak commits in Map: " + count);
+                userRepoCommitMap.put(userDetail.getLoginId(), repoCommitMap);
             }
         }
         return userRepoCommitMap;

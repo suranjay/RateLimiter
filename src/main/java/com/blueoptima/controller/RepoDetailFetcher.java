@@ -14,6 +14,8 @@ import java.util.Map;
  */
 public class RepoDetailFetcher extends AbstractDataFetcher<Map<String, Integer>> {
 
+    private Long totalCount;
+
     public RepoDetailFetcher() {
         super();
         data = new HashMap<>();
@@ -21,9 +23,11 @@ public class RepoDetailFetcher extends AbstractDataFetcher<Map<String, Integer>>
 
     @Override
     protected void parseResponse(HttpResponse response) throws ApplicationException {
+        if (totalCount == null) {
+            totalCount = JsonReader.<Long>getValueFromJson(response.getBody(), "total_count");
+        }
         JSONArray items = JsonReader.getJsonArrayFromJson(response.getBody(), "items");
         items.stream().forEach(item-> {
-//            System.out.println(((JSONObject)((JSONObject)item).get("repository")).get("full_name"));
             String o = (String) ((JSONObject) ((JSONObject) item).get("repository")).get("full_name");
             Integer count = data.get(o);
             if (count == null) {
@@ -33,5 +37,9 @@ public class RepoDetailFetcher extends AbstractDataFetcher<Map<String, Integer>>
 
             }
         });
+    }
+
+    public Long getTotalCount() {
+        return totalCount;
     }
 }

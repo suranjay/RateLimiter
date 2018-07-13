@@ -83,10 +83,10 @@ public class DataFetcherWithRateLimit {
             }
         }
 
-        System.out.print("limitRemaining:" +limitRemaining);
+        /*System.out.print("limitRemaining:" +limitRemaining);
         System.out.print(" limitReset:" + limitReset);
         System.out.print(" coreRemaining:" + coreRemaining);
-        System.out.println(" coreReset:" + coreReset);
+        System.out.println(" coreReset:" + coreReset);*/
         return response;
     }
 }
