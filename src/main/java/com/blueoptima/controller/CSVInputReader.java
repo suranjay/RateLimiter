@@ -24,6 +24,7 @@ public class CSVInputReader implements InputReader {
         try {
             parser = new CSVParser(new FileReader(filePath), format);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new ApplicationException("Error while parsing CSV", e);
         }
 

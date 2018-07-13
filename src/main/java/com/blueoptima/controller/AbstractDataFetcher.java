@@ -66,22 +66,13 @@ public abstract class AbstractDataFetcher<T> {
         for (InputDetail detail : details) {
 
 
-            HttpRequest httpRequest = new HttpRequest();
-            httpRequest.setMethodType(MethodType.GET);
-            httpRequest.setUrlString(UserUrlCreator.createUserSearchUrl(detail));
-            httpRequest.setRequestType(HttpRequest.RequestType.SEARCH);
+            HttpRequest httpRequest = UserUrlCreator.createUserSearchRequest(detail);
             AbstractDataFetcher<List<UserDetail>> dataFetcher1 = new UserDetailFetcher();
             List<UserDetail> data = dataFetcher1.getData(httpRequest);
             System.out.println(data);
             for (UserDetail userDetail : data) {
                 AbstractDataFetcher<Map<String, Integer>> repoDetailFetcher = new RepoDetailFetcher();
-                httpRequest = new HttpRequest();
-                httpRequest.setUrlString("https://api.github.com/search/commits?q=committer%3AUSERNAME&per_page=100".replace("USERNAME", userDetail.getLoginId()));
-                httpRequest.setMethodType(MethodType.GET);
-                httpRequest.setRequestType(HttpRequest.RequestType.SEARCH);
-                Map<String, String> headerMap = new HashMap<>();
-                headerMap.put("Accept", "application/vnd.github.cloak-preview");
-                httpRequest.setHeaderMap(headerMap);
+                httpRequest = CommitSearchUrlCreator.getCommitSearchRequest(userDetail.getLoginId());
                 maps.put(userDetail.getLoginId(), repoDetailFetcher.getData(httpRequest));
             }
         }
