@@ -23,7 +23,7 @@ public class HttpUrlDataFetcher {
     private static final Logger LOGGER = Logger.getLogger(HttpUrlDataFetcher.class.getName());
     private static final int CONNECTION_TIMEOUT = 4000;
     private static final int READ_TIMEOUT = 20000;
-    private static final String OATH_TOKEN = "72ef90b4fa7fa33b3df8d5ef6b05299ee55fc348";
+    private static final String OATH_TOKEN = "903623ef98335a9a9d4b53fb33a0dd15f589dddc";
 
     public static HttpResponse getDataFromURL(HttpRequest httpRequest) throws ApplicationException {
         return getDataFromURL(httpRequest, CONNECTION_TIMEOUT, READ_TIMEOUT);
@@ -48,7 +48,7 @@ public class HttpUrlDataFetcher {
             if (httpRequest.getHeaderMap() != null) {
                 httpRequest.getHeaderMap().entrySet().stream().forEach(entry -> urlConnection.setRequestProperty(entry.getKey(), entry.getValue()));
             }
-//            urlConnection.setRequestProperty("Authorization", "token " + OATH_TOKEN);
+            urlConnection.setRequestProperty("Authorization", "token " + OATH_TOKEN);
             urlConnection.setRequestMethod(httpRequest.getMethodType().getType());
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);

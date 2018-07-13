@@ -15,6 +15,9 @@ public class InputDetail {
         this.location = location;
     }
 
+    public InputDetail() {
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -25,6 +28,18 @@ public class InputDetail {
 
     public String getLocation() {
         return location;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     @Override

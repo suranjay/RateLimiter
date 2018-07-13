@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 public class UserUrlCreator {
 
     private static String BASE_URL = "https://api.github.com/search/users?q=";
-    private static String NAME_SUFFIX = "\"%s\"+in:fullname";
+    private static String NAME_SUFFIX = "+in:fullname";
     private static String LOCATION_SUFFIX = "location:\"%s\"";
     private static String PAGE_SUFFIX = "&per_page=100";
 
@@ -21,13 +21,13 @@ public class UserUrlCreator {
         StringBuffer sb = new StringBuffer(BASE_URL);
         if (inputDetail.getFirstName() != null || inputDetail.getLastName() != null) {
             try {
-                sb.append(URLEncoder.encode(inputDetail.getFirstName() + " " + inputDetail.getLastName(), "UTF-8")).append("+in:fullname");
+                sb.append(URLEncoder.encode(inputDetail.getFirstName() + " " + inputDetail.getLastName(), "UTF-8")).append(NAME_SUFFIX);
             } catch (UnsupportedEncodingException e) {
                 throw new ApplicationException("Error while encoding name suffix", e);
             }
         }
 
-        if (inputDetail.getLastName() != null) {
+        if (inputDetail.getLocation() != null) {
             try {
                 sb.append("+").append(URLEncoder.encode(String.format(LOCATION_SUFFIX, inputDetail.getLocation()),  "UTF-8"));
             } catch (UnsupportedEncodingException e) {
